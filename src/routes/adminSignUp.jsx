@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { registerAdmin } from "../api/admin/registerAdmin";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const AdminSignUp = () => {
   const [adminData, setAdminData] = useState({
@@ -7,10 +10,21 @@ const AdminSignUp = () => {
     password: "",
     email: "",
   });
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerAdmin(adminData);
+    const { status } = await registerAdmin(adminData);
+    if (status === true) {
+      toast.success("SIGNED UP SUCCESSFULLY !", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      toast.error("AN ERROR OCCURRED WHILE SIGNING UP", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+    navigate("/login-admin");
   };
 
   return (
@@ -69,6 +83,7 @@ const AdminSignUp = () => {
           </button>
         </form>
       </section>
+      <ToastContainer />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { registerGuest } from "../api/guest/registerGuest";
-import { loginGuest } from "../api/guest/loginGuest";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const GuestSignUp = () => {
   const [guestData, setGuestData] = useState({
@@ -8,10 +10,21 @@ const GuestSignUp = () => {
     password: "",
     email: "",
   });
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerGuest(guestData);
+    const { status } = await registerGuest(guestData);
+    if (status === true) {
+      toast.success("SIGNED UP SUCCESSFULLY !", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      toast.error("AN ERROR OCCURRED WHILE SIGNING UP", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+    navigate("/login-guest");
   };
 
   return (
@@ -70,6 +83,7 @@ const GuestSignUp = () => {
           </button>
         </form>
       </section>
+      <ToastContainer/>
     </div>
   );
 };
