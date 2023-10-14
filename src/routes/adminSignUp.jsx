@@ -1,0 +1,76 @@
+import { useState } from "react";
+import { registerAdmin } from "../api/admin/registerAdmin";
+
+const AdminSignUp = () => {
+  const [adminData, setAdminData] = useState({
+    name: "",
+    password: "",
+    email: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await registerAdmin(adminData);
+  };
+
+  return (
+    <div className="w-screen h-screen flex justify-center items-center bg-blue-100">
+      <section className="flex justify-center items-center">
+        <form className="bg-blue-300 p-6 rounded-lg space-y-4 w-96">
+          <div className="mb-4">
+            <h3 className="text-center mb-10 text-md font-bold mb-8 text-blue-700">
+              Admin SignUp Page
+            </h3>
+            <label className="block text-blue-900 font-bold">Name</label>
+            <input
+              type="text"
+              required
+              className="w-full p-2 rounded-md border border-blue-400 focus:outline-none focus:ring focus:ring-blue-500"
+              onChange={(e) => {
+                setAdminData({ ...adminData, name: e.target.value });
+              }}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-blue-900 font-bold">Email</label>
+            <input
+              type="email"
+              required
+              className="w-full p-2 rounded-md border border-blue-400 focus:outline-none focus:ring focus:ring-blue-500"
+              onChange={(e) => {
+                setAdminData({ ...adminData, email: e.target.value });
+              }}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-blue-900 font-bold">Password</label>
+            <input
+              type="password"
+              required
+              className="w-full p-2 rounded-md border border-blue-400 focus:outline-none focus:ring focus:ring-blue-500"
+              onChange={(e) => {
+                setAdminData({ ...adminData, password: e.target.value });
+              }}
+            />
+          </div>
+          <button
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+          <button
+            className="w-full bg-blue-300 text-blue-700 py-2 rounded-md hover:bg-blue-400 focus:outline-none"
+            onClick={() => {
+              window.location.href = "/";
+            }}
+          >
+            Go back to home page
+          </button>
+        </form>
+      </section>
+    </div>
+  );
+};
+
+export default AdminSignUp;
